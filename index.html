@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elysian Unity — Modern Streetwear</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #0a0a0a;
+            background: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        /* Header */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 2rem 5%;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.1rem;
+            font-weight: 600;
+            letter-spacing: 3px;
+            color: #0a0a0a;
+            text-transform: uppercase;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 3.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #0a0a0a;
+            font-weight: 400;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+            transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: #0a0a0a;
+            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(to bottom, #f8f8f8 0%, #ffffff 100%);
+            position: relative;
+            margin-top: 80px;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            padding: 2rem;
+        }
+
+        .hero-subtitle {
+            font-size: 0.85rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #666;
+            margin-bottom: 2rem;
+            font-weight: 500;
+        }
+
+        .hero h1 {
+            font-size: 5.5rem;
+            font-weight: 300;
+            margin-bottom: 2rem;
+            letter-spacing: -2px;
+            line-height: 1.1;
+        }
+
+        .hero h1 strong {
+            font-weight: 600;
+        }
+
+        .hero-description {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 3.5rem;
+            font-weight: 300;
+            letter-spacing: 0.3px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1.2rem 3.5rem;
+            background: #0a0a0a;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid #0a0a0a;
+        }
+
+        .cta-button:hover {
+            background: white;
+            color: #0a0a0a;
+            transform: translateY(-2px);
+        }
+
+        /* Values Section */
+        .values {
+            padding: 10rem 5%;
+            background: #fafafa;
+        }
+
+        .values-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 8rem;
+        }
+
+        .section-subtitle {
+            font-size: 0.8rem;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: #999;
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-size: 3.5rem;
+            font-weight: 300;
+            letter-spacing: -1px;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 5rem;
+        }
+
+        .value-card {
+            text-align: center;
+            padding: 0 1rem;
+        }
+
+        .value-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 2.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+        }
+
+        .value-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1.2rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        .value-card p {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.8;
+            font-weight: 300;
+        }
+
+        /* Product Showcase */
+        .products {
+            padding: 10rem 5%;
+            background: white;
+        }
+
+        .products-container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .product-hero {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 6rem;
+            align-items: center;
+            margin-bottom: 8rem;
+        }
+
+        .product-image-large {
+            width: 100%;
+            aspect-ratio: 4/5;
+            background: linear-gradient(135deg, #e8e8e8 0%, #f5f5f5 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 8rem;
+            color: #d0d0d0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-details {
+            padding: 2rem 0;
+        }
+
+        .product-tag {
+            display: inline-block;
+            padding: 0.5rem 1.2rem;
+            background: #f0f0f0;
+            font-size: 0.75rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+            font-weight: 500;
+        }
+
+        .product-details h2 {
+            font-size: 3rem;
+            font-weight: 300;
+            margin-bottom: 1.5rem;
+            letter-spacing: -1px;
+        }
+
+        .product-description {
+            color: #666;
+            font-size: 1.05rem;
+            line-height: 1.9;
+            margin-bottom: 2.5rem;
+            font-weight: 300;
+        }
+
+        .product-features {
+            list-style: none;
+            margin-bottom: 3rem;
+        }
+
+        .product-features li {
+            padding: 0.8rem 0;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 0.95rem;
+            color: #666;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .product-features li:first-child {
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .product-pricing {
+            display: flex;
+            align-items: flex-end;
+            gap: 2rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .price-main {
+            font-size: 3.5rem;
+            font-weight: 300;
+            letter-spacing: -1px;
+        }
+
+        .price-student {
+            padding-bottom: 0.8rem;
+        }
+
+        .price-student-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #999;
+            margin-bottom: 0.3rem;
+        }
+
+        .price-student-amount {
+            font-size: 1.8rem;
+            font-weight: 500;
+            color: #2e7d32;
+        }
+
+        .product-cta {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn-primary {
+            flex: 1;
+            padding: 1.2rem 2rem;
+            background: #0a0a0a;
+            color: white;
+            border: 2px solid #0a0a0a;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 500;
+        }
+
+        .btn-primary:hover {
+            background: white;
+            color: #0a0a0a;
+        }
+
+        .btn-secondary {
+            padding: 1.2rem 2rem;
+            background: white;
+            color: #0a0a0a;
+            border: 2px solid #e0e0e0;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 500;
+        }
+
+        .btn-secondary:hover {
+            border-color: #0a0a0a;
+        }
+
+        /* Coming Soon Product */
+        .product-secondary {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 6rem;
+            align-items: center;
+            padding: 5rem 0;
+            background: #fafafa;
+            margin: 0 -5vw;
+            padding: 8rem 10vw;
+        }
+
+        .coming-soon-badge {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            background: #0a0a0a;
+            color: white;
+            font-size: 0.7rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+        }
+
+        /* About Section */
+        .about {
+            padding: 10rem 5%;
+            background: white;
+        }
+
+        .about-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .about h2 {
+            font-size: 3.5rem;
+            font-weight: 300;
+            margin-bottom: 3rem;
+            letter-spacing: -1px;
+        }
+
+        .about-text {
+            font-size: 1.2rem;
+            color: #666;
+            line-height: 2;
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+
+        .about-commitment {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3rem;
+            margin-top: 6rem;
+            padding-top: 4rem;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .commitment-item {
+            text-align: center;
+        }
+
+        .commitment-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .commitment-item h4 {
+            font-size: 1rem;
+            margin-bottom: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        .commitment-item p {
+            font-size: 0.9rem;
+            color: #999;
+            font-weight: 300;
+        }
+
+        /* Footer */
+        footer {
+            background: #0a0a0a;
+            color: white;
+            padding: 5rem 5% 3rem;
+        }
+
+        .footer-content {
+            max-width: 1600px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 4rem;
+            margin-bottom: 4rem;
+        }
+
+        .footer-brand h3 {
+            font-size: 1.2rem;
+            letter-spacing: 3px;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .footer-brand p {
+            color: #999;
+            font-size: 0.9rem;
+            line-height: 1.8;
+            font-weight: 300;
+        }
+
+        .footer-links h4 {
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links a {
+            color: #999;
+            text-decoration: none;
+            font-size: 0.9rem;
+            display: block;
+            padding: 0.5rem 0;
+            transition: color 0.3s;
+            font-weight: 300;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 3rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #666;
+            font-size: 0.85rem;
+            font-weight: 300;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .hero h1 {
+                font-size: 4rem;
+            }
+
+            .product-hero,
+            .product-secondary {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .values-grid {
+                grid-template-columns: 1fr;
+                gap: 4rem;
+            }
+
+            .about-commitment {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                gap: 2rem;
+                font-size: 0.85rem;
+            }
+
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+
+            .section-title {
+                font-size: 2.5rem;
+            }
+
+            .product-details h2 {
+                font-size: 2rem;
+            }
+
+            .about h2 {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="logo">ELYSIAN UNITY</div>
+            <ul class="nav-links">
+                <li><a href="#accueil">Accueil</a></li>
+                <li><a href="#collection">Collection</a></li>
+                <li><a href="#valeurs">Valeurs</a></li>
+                <li><a href="#about">À Propos</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero fade-in" id="accueil">
+        <div class="hero-content">
+            <div class="hero-subtitle">Modern Streetwear</div>
+            <h1>L'élégance <strong>éco-responsable</strong></h1>
+            <p class="hero-description">
+                Créer une mode qui a du sens. Chaque pièce raconte une histoire d'engagement, de qualité et d'authenticité.
+            </p>
+            <a href="#collection" class="cta-button">DÉCOUVRIR</a>
+        </div>
+    </section>
+
+    <!-- Values Section -->
+    <section class="values" id="valeurs">
+        <div class="values-container">
+            <div class="section-header">
+                <div class="section-subtitle">Ce en quoi nous croyons</div>
+                <h2 class="section-title">Nos Valeurs</h2>
+            </div>
+            <div class="values-grid">
+                <div class="value-card">
+                    <div class="value-icon">🤝</div>
+                    <h3>Unité</h3>
+                    <p>Une mode qui rassemble et célèbre la diversité. Chaque création est pensée pour créer du lien, au-delà des différences.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">✨</div>
+                    <h3>Excellence</h3>
+                    <p>Une exigence sans compromis. Matériaux nobles, finitions soignées et attention portée à chaque détail de fabrication.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">🌍</div>
+                    <h3>Inclusion</h3>
+                    <p>Rendre l'éthique accessible. Notre engagement pour une mode responsable qui reste à la portée de tous.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products" id="collection">
+        <div class="products-container">
+            <div class="section-header">
+                <div class="section-subtitle">Première Collection</div>
+                <h2 class="section-title">Nos Créations</h2>
+            </div>
+
+            <!-- Main Product -->
+            <div class="product-hero">
+                <div class="product-image-large">
+                    <img src="/public/Charcoal Edition - Elysian Unity.png" alt="Charcoal Edition Hoodie" width="700" height="700">
+                </div>
+                <div class="product-details">
+                    <span class="product-tag">Disponible</span>
+                    <h2>Charcoal Edition</h2>
+                    <p class="product-description">
+                        Un hoodie intemporel en coton bio premium. Broderie artisanale minimaliste, coupe contemporaine et confort absolu. La pièce essentielle d'une garde-robe consciente.
+                    </p>
+                    <ul class="product-features">
+                        <li><span>Composition</span> <span>100% Coton Bio</span></li>
+                        <li><span>Broderie</span> <span>Logo Cœur Premium</span></li>
+                        <li><span>Fabrication</span> <span>Traçable & Éthique</span></li>
+                        <li><span>Finitions</span> <span>Excellence Française</span></li>
+                    </ul>
+                    <div class="product-pricing">
+                        <div class="price-main">45€</div>
+                        <div class="price-student">
+                            <div class="price-student-label">Tarif Étudiant</div>
+                            <div class="price-student-amount">36€</div>
+                        </div>
+                    </div>
+                    <div class="product-cta">
+                        <button class="btn-primary">COMMANDER</button>
+                        <button class="btn-secondary">GUIDE DES TAILLES</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Signature Edition -->
+            <div class="product-hero" style="margin-top: 10rem; padding-top: 8rem; border-top: 1px solid #f0f0f0;">
+                <div class="product-details">
+                    <span class="product-tag" style="background: #0a0a0a; color: white;">Best Seller</span>
+                    <h2>Signature Edition</h2>
+                    <p class="product-description">
+                        Notre pièce phare. Double broderie sophistiquée : logo discret devant, statement graphique dans le dos. Le parfait équilibre entre élégance quotidienne et impact visuel.
+                    </p>
+                    <ul class="product-features">
+                        <li><span>Composition</span> <span>100% Coton Bio Européen</span></li>
+                        <li><span>Broderie</span> <span>Double Face Premium</span></li>
+                        <li><span>Design</span> <span>Logo Cœur + Dos</span></li>
+                        <li><span>Couleur</span> <span>Noir Profond</span></li>
+                    </ul>
+                    <div class="product-pricing">
+                        <div class="price-main">55€</div>
+                        <div class="price-student">
+                            <div class="price-student-label">Tarif Étudiant</div>
+                            <div class="price-student-amount">44€</div>
+                        </div>
+                    </div>
+                    <div class="product-cta">
+                        <button class="btn-primary">COMMANDER</button>
+                        <button class="btn-secondary">GUIDE DES TAILLES</button>
+                    </div>
+                </div>
+                <div class="product-image-large">
+                    <img src="/public/charcoal edition drop 2.png" alt="Signature Edition Hoodie" width="700" height="700">
+                </div>
+            </div>
+
+            <!-- Secondary Product -->
+            <div class="product-secondary">
+                <div class="product-details">
+                    <span class="coming-soon-badge">Bientôt</span>
+                    <h2>Collector Edition</h2>
+                    <p class="product-description">
+                        Une pièce audacieuse en édition ultra-limitée. Design exclusif, colorblock moderne et détails graphiques. Seulement 30 exemplaires seront produits.
+                    </p>
+                    <ul class="product-features">
+                        <li><span>Édition</span> <span>Limitée à 30 pièces</span></li>
+                        <li><span>Design</span> <span>Exclusif & Numéroté</span></li>
+                        <li><span>Lancement</span> <span>Prochainement</span></li>
+                    </ul>
+                    <button class="btn-secondary" style="margin-top: 2rem;">ME PRÉVENIR</button>
+                </div>
+                <div class="product-image-large">🎨</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="about-container">
+            <h2>Notre Histoire</h2>
+            <p class="about-text">
+                Elysian Unity est née d'une vision : prouver que mode, éthique et élégance peuvent coexister. 
+            </p>
+            <p class="about-text">
+                Fondée par une étudiante passionnée, notre marque s'engage pour une transparence totale, des matériaux nobles et une production respectueuse. Chaque pièce est le fruit d'une collaboration avec des artisans français et des fournisseurs certifiés.
+            </p>
+            <p class="about-text">
+                Plus qu'une marque, nous construisons une communauté qui partage les mêmes valeurs.
+            </p>
+
+            <div class="about-commitment">
+                <div class="commitment-item">
+                    <div class="commitment-icon">🌱</div>
+                    <h4>Coton Bio Certifié</h4>
+                    <p>GOTS & OEKO-TEX</p>
+                </div>
+                <div class="commitment-item">
+                    <div class="commitment-icon">🇫🇷</div>
+                    <h4>Made in France</h4>
+                    <p>Production locale</p>
+                </div>
+                <div class="commitment-item">
+                    <div class="commitment-icon">♻️</div>
+                    <h4>Traçabilité Totale</h4>
+                    <p>Du champ au produit fini</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3>ELYSIAN UNITY</h3>
+                <p>Mode éco-responsable et accessible. Une nouvelle génération de streetwear conscient, créé avec passion et engagement.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Navigation</h4>
+                <ul>
+                    <li><a href="#collection">Collection</a></li>
+                    <li><a href="#valeurs">Nos Valeurs</a></li>
+                    <li><a href="#about">Notre Histoire</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Suivez-nous</h4>
+                <ul>
+                    <li><a href="#">Instagram</a></li>
+                    <li><a href="#">TikTok</a></li>
+                    <li><a href="#">LinkedIn</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 Elysian Unity — Tous droits réservés</p>
+        </div>
+    </footer>
+</body>
+</html>
