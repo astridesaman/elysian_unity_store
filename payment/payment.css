@@ -33,15 +33,59 @@ header {
 }
 
 .logo {
-  font-weight:600;
-  letter-spacing:3px;
-}
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 0.22em;
+            color: #0a0a0a;
+            text-transform: uppercase;
+        }
 
 a.link {
   color:var(--accent);
   text-decoration:none;
   font-weight:500;
 }
+.nav-links {
+            display: flex;
+            gap: 3rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #0a0a0a;
+            font-weight: 400;
+            font-size: 0.9rem;
+            letter-spacing: 0.07em;
+            text-transform: uppercase;
+            transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: #0a0a0a;
+            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        #cart-counter {
+        background:#0a0a0a;
+        color:#fff;
+        padding:2px 7px;
+        font-size:0.75rem;
+        border-radius:50%;
+        margin-left:6px;
+        display:none;
+        }
 
 .grid {
   display:grid;
