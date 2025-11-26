@@ -91,6 +91,17 @@
         .nav-links a:hover::after {
             width: 100%;
         }
+        
+        #cart-counter {
+        background:#0a0a0a;
+        color:#fff;
+        padding:2px 7px;
+        font-size:0.75rem;
+        border-radius:50%;
+        margin-left:6px;
+        display:none;
+        }
+
 
         /* Hero Section */
         .hero {
@@ -753,3 +764,4 @@
                 box-shadow: 0 30px 60px rgba(0,0,0,0.12);
             }
         }
+

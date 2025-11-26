@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Panier - Elysian Unity</title>
+<link rel="stylesheet" href="./cart.css">
+</head>
+
+<body>
+<header>
+  <div class="logo">ELYSIAN UNITY</div>
+</header>
+
+<section class="cart-container">
+  <h1>Votre Panier</h1>
+
+  <div id="cart-items"></div>
+
+  <div class="cart-summary">
+    <div class="row">
+      <span>Sous-total</span>
+      <span id="subtotal">0€</span>
+    </div>
+    <div class="row">
+      <span>Livraison</span>
+      <span id="shipping">4€</span>
+    </div>
+    <div class="row total">
+      <span>Total</span>
+      <span id="total">0€</span>
+    </div>
+
+    <a href="/payment/payments.html" class="btn-checkout">Continuer vers le paiement</a>
+  </div>
+</section>
+
+<script src="/cart/cart.js"></script>
+<script src="/cart/render-cart.js"></script>
+</body>
+</html>

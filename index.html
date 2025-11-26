@@ -18,6 +18,16 @@
                 <li><a href="#collection">Collection</a></li>
                 <li><a href="#valeurs">Valeurs</a></li>
                 <li><a href="#about">À Propos</a></li>
+                <li>
+                <li>
+                    <a href="./cart/cart.html" class="cart-link">
+                    <img src="/public/bag.png" alt="bag made by Karacis" width="25" height="25">
+                    <span id="cart-counter"></span>
+                </a>
+                </li>
+            
+</li>
+
             </ul>
         </nav>
     </header>
@@ -121,7 +131,14 @@
                         </div>
                     </div>
                     <div class="product-cta">
-                        <button class="btn-primary">Ajouter au panier</button>
+                        <input class="qty-input" type="number" min="1" value="1" aria-label="Quantité" style="width:64px; margin-right:0.5rem;">
+                        <button class="btn-primary add-to-cart" 
+                            data-id="hoodie-essentials" 
+                            data-name="Hoodie Essentials"
+                            data-price="65"
+                            data-image="/public/charcoal_hoodie.png">
+                            Ajouter au panier
+                        </button>
                         <button class="btn-secondary">Guide des tailles</button>
                     </div>
                     <div class="payment-methods">
@@ -175,7 +192,15 @@
                         </div>
                     </div>
                     <div class="product-cta">
-                        <button class="btn-primary">Ajouter au panier</button>
+                        <input class="qty-input" type="number" min="1" value="1" aria-label="Quantité" style="width:64px; margin-right:0.5rem;">
+                        <button class="btn-primary add-to-cart" 
+                            data-id="tshirt-essentials" 
+                            data-name="T-shirt Essentials"
+                            data-price="45"
+                            data-image="/public/charcoal_tshirt.png">
+                            Ajouter au panier
+                        </button>
+
                         <button class="btn-secondary">Guide des tailles</button>
                     </div>
                     <div class="payment-methods">
@@ -236,7 +261,14 @@
                         </div>
                     </div>
                     <div class="product-cta">
-                        <button class="btn-primary">Ajouter au panier</button>
+                        <input class="qty-input" type="number" min="1" value="1" aria-label="Quantité" style="width:64px; margin-right:0.5rem;">
+                        <button class="btn-primary add-to-cart"
+                            data-id="hoodie-signature"
+                            data-name="Signature Hoodie"
+                            data-price="75"
+                            data-image="/public/charcoal edition drop 2.png">
+                            Ajouter au panier
+                        </button>
                         <button class="btn-secondary">Guide des tailles</button>
                     </div>
                     <div class="payment-methods">
@@ -362,5 +394,7 @@
             });
         });
     </script>
+    <!-- Cart utilities: enable add-to-cart handlers and counter -->
+    <script src="/cart/cart.js"></script>
 </body>
 </html>
