@@ -1,8 +1,7 @@
-import osenv from 'osenv';
-
-const stripe = osenv.STRIPE_PUBLIC_KEY ? Stripe(osenv.STRIPE_PUBLIC_KEY) : null;
-
-if (!stripe) {
+// main.js - browser-safe: avoid Node-only imports and don't redeclare global `stripe`
+// If you expose `window.STRIPE_PUBLISHABLE_KEY` in your page, payment scripts will initialize Stripe.
+var stripeInstance = window.stripe || null;
+if (!stripeInstance) {
   alert("La clé publique Stripe n'est pas définie. Merci de vérifier la configuration.");
 }
 
@@ -52,12 +51,11 @@ document.querySelectorAll('.btn-primary[data-product-id]').forEach(button => {
 
       const data = await response.json();
 
-      const result = await stripe.redirectToCheckout({
-        sessionId: data.id
-      });
-
-      if (result.error) {
-        alert(result.error.message);
+      if (!stripeInstance) {
+        alert('Stripe non initialisé — redirection au checkout impossible.');
+      } else {
+        const result = await stripeInstance.redirectToCheckout({ sessionId: data.id });
+        if (result && result.error) alert(result.error.message);
       }
     } catch (error) {
       console.error(error);

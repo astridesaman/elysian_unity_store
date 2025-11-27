@@ -580,22 +580,13 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Stripe Integration (placeholder)
-        const stripe = Stripe('YOUR_STRIPE_PUBLIC_KEY'); // Replace with your key
-        const elements = stripe.elements();
-        const cardElement = elements.create('card', {
-            style: {
-                base: {
-                    fontSize: '16px',
-                    fontFamily: 'Inter, sans-serif',
-                }
-            }
-        });
-
-        // Mount Stripe card element when step 3 is shown
-        setTimeout(() => {
-            cardElement.mount('#card-element');
-        }, 500);
+        // Stripe initialization is handled centrally in /payment/payment.js.
+        // Avoid redeclaring a global `stripe` variable here. If you need to
+        // initialize stripe on this page, set window.stripe only when it does
+        // not already exist.
+        if (typeof Stripe !== 'undefined' && typeof window.stripe === 'undefined') {
+            // window.stripe = Stripe('YOUR_STRIPE_PUBLIC_KEY');
+        }
 
         // Handle payment form
         document.getElementById('paymentForm').addEventListener('submit', async (e) => {
