@@ -1,41 +1,623 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<title>Panier - Elysian Unity</title>
-<link rel="stylesheet" href="./cart.css">
-<link rel="icon" type="image/png" href="/public/favicon.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Elysian Unity</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --text: #0a0a0a;
+            --muted: #666;
+            --bg: #ffffff;
+            --bg-subtle: #fafafa;
+            --border: #f0f0f0;
+            --accent: #0a0a0a;
+            --success: #2e7d32;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            font-weight: 300;
+        }
+
+        /* Header */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 2rem 5%;
+            border-bottom: 1px solid var(--border);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.1rem;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .back-link {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 400;
+            transition: opacity 0.3s;
+        }
+
+        .back-link:hover {
+            opacity: 0.6;
+        }
+
+        /* Container */
+        .checkout-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 4rem 5%;
+        }
+
+        /* Progress Steps */
+        .progress-steps {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--muted);
+            font-size: 0.9rem;
+            font-weight: 400;
+        }
+
+        .step-number {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 2px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 500;
+        }
+
+        .step.active {
+            color: var(--text);
+        }
+
+        .step.active .step-number {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+
+        .step.completed .step-number {
+            background: var(--success);
+            color: white;
+            border-color: var(--success);
+        }
+
+        .step-arrow {
+            color: var(--border);
+            font-size: 1.5rem;
+        }
+
+        /* Main Grid */
+        .checkout-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        /* Left Column - Forms */
+        .checkout-main {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .section {
+            background: var(--bg-subtle);
+            padding: 2.5rem;
+            border-radius: 12px;
+        }
+
+        .section.hidden {
+            display: none;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.3px;
+        }
+
+        /* Form Fields */
+        .field {
+            margin-bottom: 1.25rem;
+        }
+
+        .field label {
+            display: block;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            color: var(--muted);
+            font-weight: 400;
+        }
+
+        .field input,
+        .field textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+            background: white;
+            transition: border-color 0.3s;
+        }
+
+        .field input:focus,
+        .field textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .field-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        /* Cart Items in Step 1 */
+        .cart-items-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .cart-item-mini {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: white;
+            border-radius: 8px;
+        }
+
+        .cart-item-mini img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 6px;
+            background: #e8e8e8;
+        }
+
+        .cart-item-mini .info {
+            flex: 1;
+        }
+
+        .cart-item-mini .info h4 {
+            font-size: 1rem;
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .cart-item-mini .info .details {
+            font-size: 0.85rem;
+            color: var(--muted);
+        }
+
+        .cart-item-mini .price {
+            font-weight: 500;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 1.2rem 2.5rem;
+            background: var(--accent);
+            color: white;
+            border: 2px solid var(--accent);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.4s;
+        }
+
+        .btn:hover {
+            background: white;
+            color: var(--accent);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--accent);
+            border: 2px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent);
+        }
+
+        /* Right Column - Summary */
+        .checkout-summary {
+            position: sticky;
+            top: 120px;
+            background: var(--bg-subtle);
+            padding: 2.5rem;
+            border-radius: 12px;
+        }
+
+        .summary-title {
+            font-size: 1.3rem;
+            font-weight: 500;
+            margin-bottom: 2rem;
+            letter-spacing: 0.3px;
+        }
+
+        .summary-items {
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
+
+        .summary-row.total {
+            font-size: 1.8rem;
+            font-weight: 500;
+            color: var(--text);
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .student-badge {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            background: var(--success);
+            color: white;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-top: 1rem;
+        }
+
+        /* Stripe Card Element */
+        .card-element {
+            padding: 1rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: white;
+        }
+
+        /* Success Modal */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal {
+            background: white;
+            padding: 3rem;
+            border-radius: 12px;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        .modal h2 {
+            font-size: 2rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .modal p {
+            color: var(--muted);
+            margin-bottom: 2rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .checkout-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .checkout-summary {
+                position: static;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .progress-steps {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .step-arrow {
+                display: none;
+            }
+
+            .field-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
-
 <body>
-<header>
-  <div class="logo">ELYSIAN UNITY</div>
-</header>
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="logo">ELYSIAN UNITY</div>
+            <a href="/" class="back-link">← Retour</a>
+        </nav>
+    </header>
 
-<section class="cart-container">
-  <h1>Votre Panier</h1>
+    <!-- Main Container -->
+    <div class="checkout-container">
+        <!-- Progress Steps -->
+        <div class="progress-steps">
+            <div class="step active" id="step1-indicator">
+                <span class="step-number">1</span>
+                <span>Panier</span>
+            </div>
+            <span class="step-arrow">→</span>
+            <div class="step" id="step2-indicator">
+                <span class="step-number">2</span>
+                <span>Livraison</span>
+            </div>
+            <span class="step-arrow">→</span>
+            <div class="step" id="step3-indicator">
+                <span class="step-number">3</span>
+                <span>Paiement</span>
+            </div>
+        </div>
 
-  <div id="cart-items"></div>
+        <!-- Main Grid -->
+        <div class="checkout-grid">
+            <!-- Left: Forms -->
+            <div class="checkout-main">
+                
+                <!-- STEP 1: Cart Review -->
+                <div class="section" id="step1">
+                    <h2 class="section-title">Vérifiez votre panier</h2>
+                    
+                    <div class="cart-items-list">
+                        <!-- Example item (JS will populate) -->
+                        <div class="cart-item-mini">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Crect fill='%23e8e8e8' width='60' height='60'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.3em' fill='%23999' font-size='24'%3E👕%3C/text%3E%3C/svg%3E" alt="Product">
+                            <div class="info">
+                                <h4>Hoodie Signature Edition</h4>
+                                <div class="details">Taille: L • Noir • Qté: 1</div>
+                            </div>
+                            <div class="price">55€</div>
+                        </div>
+                    </div>
 
-  <div class="cart-summary">
-    <div class="row">
-      <span>Sous-total</span>
-      <span id="subtotal">0€</span>
+                    <button class="btn" onclick="goToStep(2)">Continuer vers la livraison</button>
+                </div>
+
+                <!-- STEP 2: Shipping Info -->
+                <div class="section hidden" id="step2">
+                    <h2 class="section-title">Informations de livraison</h2>
+                    
+                    <form id="shippingForm">
+                        <div class="field">
+                            <label for="fullName">Nom complet *</label>
+                            <input type="text" id="fullName" placeholder="Prénom Nom" required>
+                        </div>
+
+                        <div class="field-row">
+                            <div class="field">
+                                <label for="email">Email *</label>
+                                <input type="email" id="email" placeholder="exemple@email.com" required>
+                            </div>
+                            <div class="field">
+                                <label for="phone">Téléphone</label>
+                                <input type="tel" id="phone" placeholder="06 12 34 56 78">
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label for="address">Adresse *</label>
+                            <input type="text" id="address" placeholder="Rue, numéro" required>
+                        </div>
+
+                        <div class="field-row">
+                            <div class="field">
+                                <label for="city">Ville *</label>
+                                <input type="text" id="city" placeholder="Paris" required>
+                            </div>
+                            <div class="field">
+                                <label for="postal">Code postal *</label>
+                                <input type="text" id="postal" placeholder="75001" required>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                            <button type="button" class="btn btn-secondary" onclick="goToStep(1)">← Retour</button>
+                            <button type="button" class="btn" onclick="goToStep(3)">Continuer vers le paiement</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- STEP 3: Payment -->
+                <div class="section hidden" id="step3">
+                    <h2 class="section-title">Paiement sécurisé</h2>
+                    
+                    <p style="color: var(--muted); margin-bottom: 1.5rem; font-size: 0.95rem;">
+                        Paiement géré par Stripe. Vos informations bancaires ne sont jamais stockées.
+                    </p>
+
+                    <form id="paymentForm">
+                        <div class="field">
+                            <label>Carte bancaire</label>
+                            <div id="card-element" class="card-element">
+                                <!-- Stripe Element injected here -->
+                            </div>
+                            <div id="card-errors" style="color: #d32f2f; font-size: 0.85rem; margin-top: 0.5rem;"></div>
+                        </div>
+
+                        <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                            <button type="button" class="btn btn-secondary" onclick="goToStep(2)">← Retour</button>
+                            <button type="submit" class="btn" id="payBtn">Payer maintenant</button>
+                        </div>
+
+                        <p style="color: var(--muted); font-size: 0.85rem; margin-top: 1rem; text-align: center;">
+                            En cliquant sur "Payer", vous acceptez nos conditions de vente.
+                        </p>
+                    </form>
+                </div>
+
+            </div>
+
+            <!-- Right: Summary -->
+            <div class="checkout-summary">
+                <h2 class="summary-title">Résumé de la commande</h2>
+                <div class="summary-items" id="summaryItems">
+                    <!-- JS will populate -->
+                </div>
+                <div class="summary-row">
+                    <span>Sous-total</span>
+                    <span id="subtotal">0€</span>
+                </div>
+                <div class="summary-row">
+                    <span>Livraison</span>
+                    <span id="shipping">4€</span>
+                </div>
+                <div class="summary-row total">
+                    <span>Total</span>
+                    <span id="total">0€</span>
+                </div>
+                <span class="student-badge">💚 Tarif Étudiant Appliqué</span>
+            </div>
+        </div>
     </div>
-    <div class="row">
-      <span>Livraison</span>
-      <span id="shipping">4€</span>
-    </div>
-    <div class="row total">
-      <span>Total</span>
-      <span id="total">0€</span>
+
+    <!-- Success Modal -->
+    <div class="modal-overlay" id="successModal">
+        <div class="modal">
+            <h2>🎉 Commande validée !</h2>
+            <p>Merci pour votre achat. Vous recevrez un email de confirmation sous peu.</p>
+            <button class="btn" onclick="window.location.href='/'">Retour à l'accueil</button>
+        </div>
     </div>
 
-    <a href="/payment/payments.html" class="btn-checkout">Continuer vers le paiement</a>
-  </div>
-</section>
+    <!-- Stripe JS -->
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+        // Step Navigation
+        let currentStep = 1;
 
-<script src="/cart/cart.js"></script>
-<script src="/cart/render-cart.js"></script>
+        function goToStep(step) {
+            // Hide all sections
+            document.getElementById('step1').classList.add('hidden');
+            document.getElementById('step2').classList.add('hidden');
+            document.getElementById('step3').classList.add('hidden');
+
+            // Show target section
+            document.getElementById(`step${step}`).classList.remove('hidden');
+
+            // Update progress indicators
+            for (let i = 1; i <= 3; i++) {
+                const indicator = document.getElementById(`step${i}-indicator`);
+                indicator.classList.remove('active', 'completed');
+                
+                if (i < step) {
+                    indicator.classList.add('completed');
+                } else if (i === step) {
+                    indicator.classList.add('active');
+                }
+            }
+
+            currentStep = step;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Stripe Integration (placeholder)
+        const stripe = Stripe('YOUR_STRIPE_PUBLIC_KEY'); // Replace with your key
+        const elements = stripe.elements();
+        const cardElement = elements.create('card', {
+            style: {
+                base: {
+                    fontSize: '16px',
+                    fontFamily: 'Inter, sans-serif',
+                }
+            }
+        });
+
+        // Mount Stripe card element when step 3 is shown
+        setTimeout(() => {
+            cardElement.mount('#card-element');
+        }, 500);
+
+        // Handle payment form
+        document.getElementById('paymentForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const payBtn = document.getElementById('payBtn');
+            payBtn.disabled = true;
+            payBtn.textContent = 'Traitement...';
+
+            // Simulate payment (replace with real Stripe payment intent)
+            setTimeout(() => {
+                document.getElementById('successModal').classList.add('show');
+                payBtn.disabled = false;
+                payBtn.textContent = 'Payer maintenant';
+            }, 2000);
+        });
+
+        // Load cart items from localStorage (example)
+        // You'll populate this with your real cart.js logic
+    </script>
+    <script src="/cart/cart.js"></script>
+    <script src="/cart/render-cart.js"></script>
+    <script src="/payment/payment.js"></script>
 </body>
 </html>

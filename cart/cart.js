@@ -144,3 +144,16 @@ document.addEventListener("click", (e) => {
     showToast("Article ajouté au panier !");
 });
 
+// Synchronisation cross-tab: quand une autre onglet modifie localStorage
+window.addEventListener('storage', (e) => {
+    if (e.key === 'cart') {
+        // update counter and notify UI listeners in this tab
+        try {
+            document.dispatchEvent(new CustomEvent('cartUpdated'));
+        } catch (err) {
+            document.dispatchEvent(new Event('cartUpdated'));
+        }
+        updateCartCounter();
+    }
+});
+
