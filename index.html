@@ -9,26 +9,28 @@
     <link rel="icon" type="image/png" href="/public/favicon.png">
 </head>
 <body>
-    <!-- Header -->
     <header>
         <nav>
             <div class="logo">ELYSIAN UNITY</div>
-            <ul class="nav-links">
-                <li><a href="#accueil">Accueil</a></li>
-                <li><a href="#collection">Collection</a></li>
-                <li><a href="#valeurs">Valeurs</a></li>
-                <li><a href="#about">À Propos</a></li>
-                <li>
-                <li>
-                    <a href="./cart/checkout.html" class="cart-link">
-                    <img src="/public/bag.png" alt="bag made by Karacis" width="25" height="25">
-                    <span id="cart-counter"></span>
-                </a>
-                </li>
-            
-</li>
-
-            </ul>
+            <button id="nav-toggle" class="hamburger" aria-expanded="false" aria-controls="nav-menu" aria-label="Ouvrir le menu">
+                <span class="hamburger-box">
+                    <span class="hamburger-inner"></span>
+                </span>
+            </button>
+            <div id="nav-menu" class="nav-menu">
+                <ul class="nav-links">
+                    <li><a href="#accueil">Accueil</a></li>
+                    <li><a href="#collection">Collection</a></li>
+                    <li><a href="#valeurs">Valeurs</a></li>
+                    <li><a href="#about">À Propos</a></li>
+                    <li>
+                        <a href="./cart/checkout.html" class="cart-link">
+                            <img src="/public/bag.png" alt="bag" width="25" height="25">
+                            <span id="cart-counter"></span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </nav>
     </header>
 
@@ -393,6 +395,7 @@
         });
     </script>
     <!-- Cart utilities: enable add-to-cart handlers and counter -->
+    <script src="/main.js"></script>
     <script src="/cart/checkout.js"></script>
 </body>
 </html>

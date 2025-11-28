@@ -2,7 +2,7 @@
 // If you expose `window.STRIPE_PUBLISHABLE_KEY` in your page, payment scripts will initialize Stripe.
 var stripeInstance = window.stripe || null;
 if (!stripeInstance) {
-  alert("La clé publique Stripe n'est pas définie. Merci de vérifier la configuration.");
+  console.warn("Stripe instance not found on window; payment pages may initialize it when needed.");
 }
 
 // Gestion visuelle de la sélection de taille
@@ -63,3 +63,40 @@ document.querySelectorAll('.btn-primary[data-product-id]').forEach(button => {
     }
   });
 });
+
+// Hamburger menu toggle (responsive)
+(function () {
+  function closeNav() {
+    document.body.classList.remove('nav-open');
+    document.querySelectorAll('[aria-expanded="true"]').forEach(el => el.setAttribute('aria-expanded', 'false'));
+  }
+
+  function openNav(toggle) {
+    document.body.classList.add('nav-open');
+    if (toggle) toggle.setAttribute('aria-expanded', 'true');
+  }
+
+  document.addEventListener('click', function (e) {
+    const toggle = e.target.closest('#nav-toggle');
+    if (toggle) {
+      const expanded = toggle.getAttribute('aria-expanded') === 'true';
+      if (expanded) closeNav(); else openNav(toggle);
+      return;
+    }
+
+    // Click outside nav-menu closes it
+    if (document.body.classList.contains('nav-open')) {
+      const menu = document.getElementById('nav-menu');
+      if (menu && !menu.contains(e.target) && !e.target.closest('#nav-toggle')) {
+        closeNav();
+      }
+    }
+  });
+
+  // Close on Escape
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && document.body.classList.contains('nav-open')) {
+      closeNav();
+    }
+  });
+})();

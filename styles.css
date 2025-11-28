@@ -93,8 +93,7 @@
         }
         
         #cart-counter {
-        background:#0a0a0a;
-        color:#fff;
+        color: black;
         padding:2px 7px;
         font-size:0.75rem;
         border-radius:50%;
@@ -774,4 +773,91 @@
                 box-shadow: 0 30px 60px rgba(0,0,0,0.12);
             }
         }
+
+        /* Utility: make media elements fluid */
+        img, picture, video, svg {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Smaller devices: improve spacing and typography */
+        @media (max-width: 480px) {
+            header { padding: 0.8rem 1rem; }
+            .logo { font-size: 0.9rem; }
+            .nav-links { display: none; }
+            .hero { padding: 2rem 1rem; height: auto; }
+            .hero h1 { font-size: 1.8rem; }
+            .cta-button { padding: 0.9rem 1.2rem; font-size: 0.85rem; }
+            .values { padding: 3rem 1rem; }
+            .products { padding: 3rem 1rem; }
+            .product-hero { gap: 2rem; }
+            .product-details h2 { font-size: 1.6rem; }
+            .section-title { font-size: 1.6rem; }
+            .price-main { font-size: 2rem; }
+            .btn-primary, .btn-secondary { width: 100%; }
+            .values-grid, .about-commitment { gap: 1.4rem; }
+        }
+
+/* Hamburger menu styles */
+.hamburger {
+    display: none; /* shown only on small screens */
+    appearance: none;
+    border: 0;
+    background: transparent;
+    padding: 0.5rem;
+    margin-left: 0.5rem;
+    cursor: pointer;
+}
+.hamburger-box {
+    display: inline-block;
+    width: 28px;
+    height: 18px;
+    position: relative;
+}
+.hamburger-inner,
+.hamburger-inner::before,
+.hamburger-inner::after {
+    display: block;
+    background-color: #0a0a0a;
+    height: 2px;
+    border-radius: 2px;
+    position: absolute;
+    width: 100%;
+    transition: transform 0.25s ease, opacity 0.2s ease;
+}
+.hamburger-inner { top: 50%; transform: translateY(-50%); }
+.hamburger-inner::before { content: ''; top: -8px; }
+.hamburger-inner::after { content: ''; top: 8px; }
+
+/* Nav menu - hidden on small screens until toggled */
+.nav-menu { display: block; }
+
+@media (max-width: 768px) {
+    .nav-links { display: none; }
+    .hamburger { display: inline-block; }
+    .nav-menu {
+        display: none;
+        position: absolute;
+        right: 1rem;
+        top: 64px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        padding: 0.75rem 1rem;
+        min-width: 180px;
+        z-index: 1100;
+    }
+    .nav-menu .nav-links { display: flex; flex-direction: column; gap: 0.5rem; }
+    .nav-menu .nav-links a { padding: 0.5rem 0; display: block; }
+    .nav-menu a.back-link { padding: 0.5rem 0; display: block; }
+
+    /* When nav is open, show the menu */
+    body.nav-open .nav-menu { display: block; }
+
+    /* Hamburger open state transform */
+    body.nav-open .hamburger-inner { transform: rotate(45deg); }
+    body.nav-open .hamburger-inner::before { transform: rotate(90deg) translateX(0); top: 0; }
+    body.nav-open .hamburger-inner::after { opacity: 0; }
+}
 

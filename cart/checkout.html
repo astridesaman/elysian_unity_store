@@ -14,7 +14,14 @@
     <header>
         <nav>
             <div class="logo">ELYSIAN UNITY</div>
-            <a href="/" class="back-link">← Retour</a>
+            <button id="nav-toggle" class="hamburger" aria-expanded="false" aria-controls="nav-menu" aria-label="Ouvrir le menu">
+                <span class="hamburger-box">
+                    <span class="hamburger-inner"></span>
+                </span>
+            </button>
+            <div id="nav-menu" class="nav-menu">
+                <a href="/" class="back-link">← Retour</a>
+            </div>
         </nav>
     </header>
 
@@ -193,6 +200,7 @@
     <!-- Stripe JS -->
     <script src="https://js.stripe.com/v3/"></script>
     <!-- Inline checkout logic moved to /cart/checkout.js to comply with CSP -->
+    <script src="/main.js"></script>
     <script src="/cart/checkout.js"></script>
     <script src="/cart/render-cart.js"></script>
     <script src="/payment/payment.js"></script>
