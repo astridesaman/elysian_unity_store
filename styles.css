@@ -447,6 +447,16 @@
             margin-bottom: 1rem;
         }
 
+        .qty-input {
+            width: 64px;
+            padding: 0.6rem 0.8rem;
+            border: 1px solid #ccc;
+            border-radius: 7px;
+            font-size: 0.9rem;
+            margin-right: 0.5rem;
+            
+        }
+
         .product-cta {
             display: flex;
             gap: 1rem;

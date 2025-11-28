@@ -97,10 +97,49 @@
     var cart = readCart();
     var sub = 0;
     for (var i = 0; i < cart.length; i++) { sub += (parseFloat(cart[i].price) || 0) * (cart[i].qty || 1); }
-    var shipping = sub > 100 ? 0 : (sub === 0 ? 0 : 4);
-    var total = sub + shipping;
+    
+    // Check for student discount - debug and ensure we get the right value
+    var isStudent = false;
+    try {
+      if (typeof isStudentDiscount === 'function') {
+        isStudent = isStudentDiscount();
+      } else if (typeof window.isStudentDiscount === 'function') {
+        isStudent = window.isStudentDiscount();
+      } else {
+        // Fallback: check checkbox directly
+        var checkbox = document.getElementById('isStudent');
+        if (checkbox) isStudent = checkbox.checked;
+      }
+    } catch (e) {
+      console.warn('Could not determine student status:', e);
+    }
+    
+    var discount = 0;
+    var subAfterDiscount = sub;
+    if (isStudent) {
+      discount = sub * 0.20; // 20% discount on original subtotal
+      subAfterDiscount = sub - discount;
+    }
+    
+    var shipping = subAfterDiscount > 100 ? 0 : (subAfterDiscount === 0 ? 0 : 4);
+    var total = subAfterDiscount + shipping;
+    
+    // Always display original subtotal (before discount)
     var subEl = document.getElementById('subTotal'); if (subEl) subEl.textContent = formatEuro(sub);
     var shipEl = document.getElementById('shipping'); if (shipEl) shipEl.textContent = shipping === 0 ? 'Gratuite' : formatEuro(shipping);
+    
+    // Show discount row if applicable
+    var discountEl = document.getElementById('studentDiscount');
+    if (isStudent && discount > 0) {
+      if (discountEl) {
+        discountEl.style.display = 'flex';
+        var discountValue = discountEl.querySelector('.discount-value');
+        if (discountValue) discountValue.textContent = '-' + formatEuro(discount);
+      }
+    } else {
+      if (discountEl) discountEl.style.display = 'none';
+    }
+    
     var totalEl = document.getElementById('total'); if (totalEl) totalEl.textContent = formatEuro(total);
     renderSummaryFromCart(cart);
     return { subTotal: sub, shipping: shipping, total: total, cart: cart };

@@ -22,13 +22,19 @@ function renderCart() {
 
     if (usingCompact) {
         container.innerHTML = cart.map(item => `
-            <div class="cart-item-mini">
+            <div class="cart-item-mini" data-id="${item.id}" data-size="${item.size}">
                 <img src="${item.image || ''}" alt="${item.name}">
                 <div class="info">
                     <h4>${item.name}</h4>
-                    <div class="details">Taille: ${item.size} • Qté: ${item.qty}</div>
+                    <div class="details">Taille: ${item.size}</div>
+                    <div class="qty-controls" style="display: flex; align-items: center; gap: 0.5rem; margin-top: 0.5rem;">
+                        <button class="qty-decrease" style="width: 28px; height: 28px; border: 1px solid #f0f0f0; background: white; cursor: pointer; border-radius: 4px;" aria-label="Réduire">−</button>
+                        <input class="qty-input-cart" type="number" min="1" value="${item.qty}" style="width: 50px; height: 28px; border: 1px solid #f0f0f0; border-radius: 4px; text-align: center;" aria-label="Quantité">
+                        <button class="qty-increase" style="width: 28px; height: 28px; border: 1px solid #f0f0f0; background: white; cursor: pointer; border-radius: 4px;" aria-label="Augmenter">+</button>
+                        <button class="remove-btn" style="margin-left: 0.75rem; padding: 0.3rem 0.6rem; border: none; background: transparent; color: #d32f2f; cursor: pointer; font-size: 0.8rem; text-transform: uppercase; font-weight: 500;">✕ Supprimer</button>
+                    </div>
                 </div>
-                <div class="price">${((item.price||0) * item.qty).toFixed(2).replace('.00','')}€</div>
+                <div class="price" style="font-weight: 600;">${((item.price||0) * item.qty).toFixed(2).replace('.00','')}€</div>
             </div>
         `).join('');
     } else {
@@ -72,8 +78,11 @@ function setupCartInteractions() {
         const inc = e.target.closest('.qty-increase');
         const dec = e.target.closest('.qty-decrease');
         const rem = e.target.closest('.remove-btn');
-        const parent = e.target.closest('.cart-item');
+        
+        // Support both full cart items (.cart-item) and compact items (.cart-item-mini)
+        const parent = e.target.closest('.cart-item') || e.target.closest('.cart-item-mini');
         if (!parent) return;
+        
         const id = parent.dataset.id;
         const size = parent.dataset.size;
 
@@ -109,7 +118,7 @@ function setupCartInteractions() {
     container.addEventListener('change', (e) => {
         const input = e.target.closest('.qty-input-cart');
         if (!input) return;
-        const parent = input.closest('.cart-item');
+        const parent = input.closest('.cart-item') || input.closest('.cart-item-mini');
         const id = parent.dataset.id;
         const size = parent.dataset.size;
         let v = parseInt(input.value, 10) || 1;
